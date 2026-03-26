@@ -1,4 +1,4 @@
-import type { ProgressSummary, ResourceItem, Roadmap } from "../types";
+import type { ProgressSummary, ResourceItem, Roadmap, TestimonialItem } from "../types";
 
 const jsonHeaders = { "Content-Type": "application/json" };
 const roadmapStorageKey = "myjobmate.activeRoadmap";
@@ -124,6 +124,37 @@ const fallbackProgress: ProgressSummary = {
   ]
 };
 
+const fallbackTestimonials: TestimonialItem[] = [
+  {
+    id: 1,
+    userName: "Aman Verma",
+    city: "Indore",
+    feedbackText: "I was learning randomly before. Now I have proper structure and I know what to do next every week.",
+    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 2,
+    userName: "Priya Sharma",
+    city: "Jaipur",
+    feedbackText: "This platform gave me clarity. I stopped jumping across resources and started following one focused path.",
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 3,
+    userName: "Rohit Kumar",
+    city: "Patna",
+    feedbackText: "Resume suggestions were practical, and the roadmap helped me improve what recruiters actually care about.",
+    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 4,
+    userName: "Sneha Joshi",
+    city: "Pune",
+    feedbackText: "I finally feel accountable. The tracking and structure made my effort feel real instead of random.",
+    createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
 const fallbackResources: ResourceItem[] = [
   {
     id: 1,
@@ -186,5 +217,7 @@ export const api = {
   getProgressSummary: () => read<ProgressSummary>("/api/v1/progress/summary", undefined, fallbackProgress),
   getResources: () => read<ResourceItem[]>("/api/v1/resources", undefined, fallbackResources),
   getJobReadiness: () => read<Record<string, unknown>>("/api/v1/job-readiness/me", undefined, { score: 72, nextBestActions: ["Complete one backend project milestone", "Raise ATS score above 85", "Practice one technical interview set"] }),
-  getSkillGap: () => read<Record<string, unknown>>("/api/v1/skill-gap/analyze", { method: "POST" }, { missingSkills: ["Spring Security", "Hibernate", "REST API testing"] })
+  getSkillGap: () => read<Record<string, unknown>>("/api/v1/skill-gap/analyze", { method: "POST" }, { missingSkills: ["Spring Security", "Hibernate", "REST API testing"] }),
+  getTestimonials: () => read<TestimonialItem[]>("/api/testimonials", undefined, fallbackTestimonials),
+  completeTask: (taskId: number) => read<{ taskId: number; status: string }>(`/api/v1/tasks/${taskId}`, { method: "PATCH" }, { taskId, status: "COMPLETED" })
 };

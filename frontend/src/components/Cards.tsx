@@ -1,9 +1,25 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
-export function StatCard({ label, value, hint }: { label: string; value: string | number; hint: string }) {
+// Shared stat card used across dashboard-style surfaces.
+export function StatCard({
+  label,
+  value,
+  hint,
+  icon,
+  tone = "teal"
+}: {
+  label: string;
+  value: string | number;
+  hint: string;
+  icon?: ReactNode;
+  tone?: "teal" | "amber" | "rose" | "violet";
+}) {
   return (
-    <article className="card stat-card">
-      <span className="eyebrow">{label}</span>
+    <article className={`card stat-card stat-card-${tone}`}>
+      <div className="stat-card-top">
+        <span className="eyebrow">{label}</span>
+        {icon ? <span className="stat-card-icon">{icon}</span> : null}
+      </div>
       <strong>{value}</strong>
       <p>{hint}</p>
     </article>

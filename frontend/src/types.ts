@@ -53,3 +53,10 @@ export type ProgressSummary = {
   level: number;
   todaysTasks: TaskItem[];
 };
+export type TestimonialItem = {
+  id: number;
+  userName: string;
+  city: string;
+  feedbackText: string;
+  createdAt: string;
+};
